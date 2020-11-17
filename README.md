@@ -18,6 +18,16 @@ deploy:
     - docker stack deploy --with-registry-auth --compose-file=./docker-stack.yml.${CI_COMMIT_SHORT_SHA} ${DOCKER_SERVICE}
 ```
 
+## if you need docker-compose
+
+```yml
+test:
+  stage: test
+  image: lskjs/dind:compose
+  script:
+    - docker-compose run test
+```
+
 ## using from docker
 
 `docker run -it --rm lskjs/dind bash`
