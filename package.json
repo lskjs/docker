@@ -1,0 +1,22 @@
+{
+  "name": "@lskjs/docker",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "build": "       lsk run build",
+    "dev": "         lsk run build --watch",
+    "release": "     lsk run release"
+  },
+  "devDependencies": {
+    "@lskjs/eslint-config": "^3.0.0-alpha.37",
+    "eslint": "^8.33.0",
+    "fishbird": "^0.21.0",
+    "@lskjs/cli-utils": "^3.3.0",
+    "lsk": "^3.0.0-alpha.37"
+  },
+  "license": "MIT",
+  "prettier": "@lskjs/eslint-config/prettier",
+  "eslintConfig": {
+    "extends": "@lskjs/eslint-config"
+  }
+}
