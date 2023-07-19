@@ -26,7 +26,7 @@ Like a dind but with kubectl.
 ```yml
 deploy:
   stage: deploy
-  image: lskjs/dind
+  image: lskjs/kubectl
   script:
     - docker login -u ${DOCKER_REGISTRY_USER} -p ${DOCKER_REGISTRY_PASS} ${DOCKER_REGISTRY}
     - docker build -t ${DOCKER_IMAGE} ${DOCKER_FILE}
