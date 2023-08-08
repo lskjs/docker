@@ -1,3 +1,5 @@
+docker buildx build -t lskjs/clickhouse-client:latest dockerfiles/lskjs_clickhouse-client_latest && \
+docker push lskjs/clickhouse-client:latest && \
 docker buildx build -t lskjs/dind:latest dockerfiles/lskjs_dind_latest && \
 docker push lskjs/dind:latest && \
 docker buildx build -t lskjs/kubectl:1.27 dockerfiles/lskjs_kubectl_1.27 && \

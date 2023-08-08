@@ -35,11 +35,11 @@ async function main({ args }) {
   } else {
     const cmds = getCmds('build');
     cmds.push('echo FINISH');
-    fs.writeFileSync('./dockerfiles/release.sh', cmds.join(' && \\\n'));
+    fs.writeFileSync('./scripts/sh/release.sh', cmds.join(' && \\\n'));
 
     const cmdsx = getCmds('buildx build');
     cmdsx.push('echo FINISH');
-    fs.writeFileSync('./dockerfiles/releasex.sh', cmdsx.join(' && \\\n'));
+    fs.writeFileSync('./scripts/sh/releasex.sh', cmdsx.join(' && \\\n'));
   }
 }
 

@@ -15,6 +15,11 @@ module.exports = {
       ],
     },
     {
+      name: 'lskjs/clickhouse-client',
+      template: require('./templates/clickhouse-client'),
+      props: [{ version: 'latest' }],
+    },
+    {
       name: 'lskjs/rsync',
       template: require('./templates/rsync'),
       props: [
