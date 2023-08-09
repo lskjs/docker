@@ -1,15 +1,14 @@
 # Based on
+# https://hub.docker.com/r/clickhouse/clickhouse-server/
+# and
 # https://hub.docker.com/r/yandex/clickhouse-client/dockerfile
-FROM ubuntu:18.04
 
-ARG repository="deb https://repo.yandex.ru/clickhouse/deb/dists/stable/ main/"
-ARG version=19.1.13
+FROM clickhouse/clickhouse-server:latest
 
-RUN apt-get update     && apt-get install --yes --no-install-recommends         apt-transport-https         dirmngr         gnupg     && mkdir -p /etc/apt/sources.list.d     && apt-key adv --keyserver keyserver.ubuntu.com --recv E0C56BD4     && echo $repository > /etc/apt/sources.list.d/clickhouse.list     && apt-get update     && env DEBIAN_FRONTEND=noninteractive         apt-get install --allow-unauthenticated --yes --no-install-recommends             clickhouse-client=$version             clickhouse-common-static=$version             locales             tzdata     && rm -rf /var/lib/apt/lists/* /var/cache/debconf     && apt-get clean
+ARG NODE_ENV=production
+ENV NODE_ENV=${NODE_ENV}
 
-RUN locale-gen en_US.UTF-8
-ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US:en
-ENV LC_ALL en_US.UTF-8
-
-ENTRYPOINT ["/usr/bin/clickhouse-client"]
+RUN apt-get update && apt-get install -y curl
+RUN curl -fsSL https://deb.nodesource.com/setup_17.x | bash -
+RUN apt-get update && apt-get -y install nano cron nodejs mongodb-clients
+RUN npm i -g @lskjs/rabbit-cli@2.54.1

@@ -17,7 +17,7 @@ module.exports = {
     {
       name: 'lskjs/clickhouse-client',
       template: require('./templates/clickhouse-client'),
-      props: [{ version: 'latest' }],
+      props: [{ from: 'clickhouse/clickhouse-server:latest', version: 'latest' }],
     },
     {
       name: 'lskjs/rsync',
