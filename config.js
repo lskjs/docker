@@ -28,6 +28,7 @@ module.exports = {
       ],
     },
     {
+      // https://nodejs.org/en
       name: 'lskjs/node',
       template: require('./templates/node-alpine'),
       props: [
@@ -38,10 +39,13 @@ module.exports = {
         { from: 'node:19.5.0-alpine', version: '19.5.0-alpine' },
         { from: 'node:20.2.0-alpine', version: '20.2.0-alpine', pnpmVersion: 8 },
         { from: 'node:20.2.0-alpine', version: '20.2.0-alpine-gyp', pnpmVersion: 8, gyp: true },
+        { from: 'node:21.6.2-alpine', version: '21.6.2-alpine', pnpmVersion: 8 },
+        { from: 'node:21.6.2-alpine', version: '21.6.2-alpine-gyp', pnpmVersion: 8, gyp: true },
         { from: 'node:alpine', version: 'latest-alpine' },
       ],
     },
     {
+      // https://nodejs.org/en
       name: 'lskjs/node',
       template: require('./templates/node'),
       props: [
@@ -53,6 +57,8 @@ module.exports = {
         { from: 'node:19.5.0', version: '19.5.0' },
         { from: 'node:20.2.0', version: '20.2.0', pnpmVersion: 8 },
         { from: 'node:20.2.0', version: '20.2.0-gyp', pnpmVersion: 8, gyp: true },
+        { from: 'node:21.6.2', version: '21.6.2', pnpmVersion: 8 },
+        { from: 'node:21.6.2', version: '21.6.2-gyp', pnpmVersion: 8, gyp: true },
         { from: 'node:latest', version: 'latest' },
       ],
     },
@@ -64,6 +70,7 @@ module.exports = {
         { from: `lskjs/node:19.3.0`, version: '19.3.0-puppeteer' },
         { from: `lskjs/node:19.5.0`, version: '19.5.0-puppeteer' },
         { from: `lskjs/node:20.2.0`, version: '20.2.0-puppeteer', pnpmVersion: 8 },
+        { from: `lskjs/node:21.6.2`, version: '21.6.2-puppeteer', pnpmVersion: 8 },
       ],
     },
     {
@@ -88,6 +95,12 @@ module.exports = {
         {
           from: `lskjs/node:20.2.0`,
           version: '20.2.0-clickhouse',
+          clickhouseVersion: '20.8.2.3',
+          pnpmVersion: 8,
+        },
+        {
+          from: `lskjs/node:21.6.2`,
+          version: '21.6.2-clickhouse',
           clickhouseVersion: '20.8.2.3',
           pnpmVersion: 8,
         },
