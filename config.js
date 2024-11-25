@@ -1,3 +1,6 @@
+const linuxPackages = ['which', 'curl'];
+const gypPackages = [...linuxPackages, 'g++', 'make', 'python3'];
+
 module.exports = {
   buildDir: 'dockerfiles',
   images: [
@@ -10,8 +13,9 @@ module.exports = {
       name: 'lskjs/kubectl',
       template: require('./templates/kubectl'),
       props: [
-        { from: 'bitnami/kubectl:latest', version: 'latest' },
         { from: 'bitnami/kubectl:1.27', version: '1.27' },
+        { from: 'bitnami/kubectl:1.30', version: '1.30' },
+        { from: 'bitnami/kubectl:latest', version: 'latest' },
       ],
     },
     {
@@ -23,6 +27,7 @@ module.exports = {
       name: 'lskjs/rsync',
       template: require('./templates/rsync'),
       props: [
+        { from: 'alpine:3.20.0', version: '3.20.0' },
         { from: 'alpine:3.16.0', version: '3.16.0' },
         { from: 'alpine:latest', version: 'latest' },
       ],
@@ -33,15 +38,40 @@ module.exports = {
       template: require('./templates/node-alpine'),
       props: [
         // '15.8.0',
-        { from: 'node:17.4.0-alpine', version: '17.4.0-alpine' },
-        { from: 'node:18.10.0-alpine', version: '18.10.0-alpine' },
-        { from: 'node:19.3.0-alpine', version: '19.3.0-alpine' },
-        { from: 'node:19.5.0-alpine', version: '19.5.0-alpine' },
-        { from: 'node:20.2.0-alpine', version: '20.2.0-alpine', pnpmVersion: 8 },
-        { from: 'node:20.2.0-alpine', version: '20.2.0-alpine-gyp', pnpmVersion: 8, gyp: true },
-        { from: 'node:21.6.2-alpine', version: '21.6.2-alpine', pnpmVersion: 8 },
-        { from: 'node:21.6.2-alpine', version: '21.6.2-alpine-gyp', pnpmVersion: 8, gyp: true },
-        { from: 'node:alpine', version: 'latest-alpine' },
+        { from: 'node:17.4.0-alpine', version: '17.4.0-alpine', linuxPackages, pnpmVersion: 7 },
+        { from: 'node:18.10.0-alpine', version: '18.10.0-alpine', linuxPackages, pnpmVersion: 7 },
+        { from: 'node:19.3.0-alpine', version: '19.3.0-alpine', linuxPackages, pnpmVersion: 7 },
+        { from: 'node:19.5.0-alpine', version: '19.5.0-alpine', linuxPackages, pnpmVersion: 7 },
+        { from: 'node:20.2.0-alpine', version: '20.2.0-alpine', linuxPackages, pnpmVersion: 8 },
+        {
+          from: 'node:20.2.0-alpine',
+          version: '20.2.0-alpine-gyp',
+          linuxPackages: gypPackages,
+          pnpmVersion: 8,
+        },
+        {
+          from: 'node:21.6.0-alpine',
+          version: '21.6.0-alpine',
+          pnpmVersion: 8,
+        },
+        {
+          from: 'node:21.6.0-alpine',
+          version: '21.6.0-alpine-gyp',
+          linuxPackages: gypPackages,
+          pnpmVersion: 8,
+        },
+        {
+          from: 'node:22.6.0-alpine',
+          version: '22.6.0-alpine',
+          pnpmVersion: 8,
+        },
+        {
+          from: 'node:22.6.0-alpine',
+          version: '22.6.0-alpine-gyp',
+          linuxPackages: gypPackages,
+          pnpmVersion: 8,
+        },
+        { from: 'node:alpine', version: 'latest-alpine', linuxPackages, pnpmVersion: 8 },
       ],
     },
     {
@@ -51,15 +81,17 @@ module.exports = {
       props: [
         // '15.8.0',
         // '17.4.0',
-        { from: 'node:17.4.0', version: '17.4.0' },
-        { from: 'node:18.10.0', version: '18.10.0' },
-        { from: 'node:19.3.0', version: '19.3.0' },
-        { from: 'node:19.5.0', version: '19.5.0' },
-        { from: 'node:20.2.0', version: '20.2.0', pnpmVersion: 8 },
-        { from: 'node:20.2.0', version: '20.2.0-gyp', pnpmVersion: 8, gyp: true },
-        { from: 'node:21.6.2', version: '21.6.2', pnpmVersion: 8 },
-        { from: 'node:21.6.2', version: '21.6.2-gyp', pnpmVersion: 8, gyp: true },
-        { from: 'node:latest', version: 'latest' },
+        { from: 'node:17.4.0', version: '17.4.0', linuxPackages, pnpmVersion: 7 },
+        { from: 'node:18.10.0', version: '18.10.0', linuxPackages, pnpmVersion: 7 },
+        { from: 'node:19.3.0', version: '19.3.0', linuxPackages, pnpmVersion: 7 },
+        { from: 'node:19.5.0', version: '19.5.0', linuxPackages, pnpmVersion: 7 },
+        { from: 'node:20.2.0', version: '20.2.0', linuxPackages, pnpmVersion: 8 },
+        { from: 'node:20.2.0', version: '20.2.0-gyp', linuxPackages: gypPackages, pnpmVersion: 8 },
+        { from: 'node:21.6.0', version: '21.6.0', linuxPackages, pnpmVersion: 8 },
+        { from: 'node:21.6.0', version: '21.6.0-gyp', linuxPackages: gypPackages, pnpmVersion: 8 },
+        { from: 'node:22.6.0', version: '22.6.0', linuxPackages, pnpmVersion: 8 },
+        { from: 'node:22.6.0', version: '22.6.0-gyp', linuxPackages: gypPackages, pnpmVersion: 8 },
+        { from: 'node:latest', version: 'latest', linuxPackages, pnpmVersion: 8 },
       ],
     },
     {
@@ -69,8 +101,10 @@ module.exports = {
         { from: `lskjs/node:18.10.0`, version: '18.10.0-puppeteer' },
         { from: `lskjs/node:19.3.0`, version: '19.3.0-puppeteer' },
         { from: `lskjs/node:19.5.0`, version: '19.5.0-puppeteer' },
-        { from: `lskjs/node:20.2.0`, version: '20.2.0-puppeteer', pnpmVersion: 8 },
-        { from: `lskjs/node:21.6.2`, version: '21.6.2-puppeteer', pnpmVersion: 8 },
+        { from: `lskjs/node:20.2.0`, version: '20.2.0-puppeteer' },
+        { from: `lskjs/node:21.6.0`, version: '20.2.0-puppeteer' },
+        { from: `lskjs/node:22.6.0`, version: '20.2.0-puppeteer' },
+        { from: `lskjs/node:latest`, version: 'latest-puppeteer' },
       ],
     },
     {
@@ -98,11 +132,39 @@ module.exports = {
           clickhouseVersion: '20.8.2.3',
           pnpmVersion: 8,
         },
+      ],
+    },
+    {
+      name: 'lskjs/node',
+      template: require('./templates/node'),
+      props: [
         {
-          from: `lskjs/node:21.6.2`,
-          version: '21.6.2-clickhouse',
-          clickhouseVersion: '20.8.2.3',
+          from: 'node:20.2.0',
+          version: '20.2.0-playwright',
           pnpmVersion: 8,
+          name: 'firefox',
+          commands: ['pnpm dlx playwright install --with-deps'],
+        },
+        {
+          from: 'node:21.6.0',
+          version: '21.6.0-playwright',
+          pnpmVersion: 8,
+          name: 'firefox',
+          commands: ['pnpm dlx playwright install --with-deps'],
+        },
+        {
+          from: 'node:22.6.0',
+          version: '22.6.0-playwright',
+          pnpmVersion: 8,
+          name: 'firefox',
+          commands: ['pnpm dlx playwright install --with-deps'],
+        },
+        {
+          from: 'node:latest',
+          version: 'latest-playwright',
+          pnpmVersion: 8,
+          name: 'firefox',
+          commands: ['pnpm dlx playwright install --with-deps'],
         },
       ],
     },

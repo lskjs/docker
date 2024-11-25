@@ -1,6 +1,6 @@
-FROM node:alpine
+FROM node:21.6.0
 
 RUN \
-    apk add --no-cache which curl && \
+    apt-get install --no-install-recommends -y curl && \
     npm i -g pnpm@8 && \
     pnpm config set store-dir .pnpm-store

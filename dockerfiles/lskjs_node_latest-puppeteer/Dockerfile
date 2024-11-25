@@ -1,4 +1,4 @@
-FROM lskjs/node:22.6.0
+FROM lskjs/node:latest
 
 RUN apt-get update \
     && apt-get install -y wget gnupg ca-certificates \

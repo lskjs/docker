@@ -9,7 +9,7 @@ const isM1 = require('os').arch() === 'arm64' && require('os').cpus()[0].model.i
 async function main({ args }) {
   const isRelease = args.includes('--release');
 
-  const getCmds = (cmd) =>
+  const getCmds = ({ isM1 } = {}) =>
     fs
       .readdirSync(buildDir)
       .map((dirname) => {
@@ -25,19 +25,24 @@ async function main({ args }) {
           return [];
           // throw new Error('Invalid dirname');
         }
+        const path = `${buildDir}/${dirname}`;
         const imageName = group ? `${group}/${name}:${version}` : `${name}:${version}`;
-        return [`docker ${cmd} -t ${imageName} ${buildDir}/${dirname}`, `docker push ${imageName}`];
+        if (isM1) {
+          return `docker buildx build --platform linux/amd64,linux/arm64 --push -t ${imageName} ${path}`;
+        }
+        const cmd = 'build';
+        return [`docker ${cmd} -t ${imageName} ${path}`, `docker push ${imageName}`];
       })
       .flat();
   if (isRelease) {
-    const cmds = getCmds(isM1 ? 'buildx build' : 'build');
+    const cmds = getCmds({ isM1 });
     await mapSeries(cmds, (cmd) => execSync(cmd));
   } else {
-    const cmds = getCmds('build');
+    const cmds = getCmds({ isM1: false });
     cmds.push('echo FINISH');
     fs.writeFileSync('./scripts/sh/release.sh', cmds.join(' && \\\n'));
 
-    const cmdsx = getCmds('buildx build');
+    const cmdsx = getCmds({ isM1: true });
     cmdsx.push('echo FINISH');
     fs.writeFileSync('./scripts/sh/releasex.sh', cmdsx.join(' && \\\n'));
   }

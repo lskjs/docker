@@ -1,12 +1,20 @@
-const linuxPackages = ({ gyp, packages }) =>
-  [gyp && ' g++ make python3', packages].filter(Boolean).join(' ');
+const {
+  concat,
+  installLinuxPackages,
+  installPnpmPackages,
+  runCommands,
+  installPnpm,
+} = require('./_utils');
 
-module.exports = ({ from, pnpmVersion = 7, gyp, linuxPackages: packages = '' }) =>
+module.exports = ({ from, pnpmVersion, pnpmPackages, commands, linuxPackages }) =>
   `
 FROM ${from}
 
 RUN \\
-    apt-get install --no-install-recommends -y curl${linuxPackages({ gyp, packages })} && \\
-    npm i -g pnpm@${pnpmVersion} && \\
-    pnpm config set store-dir .pnpm-store
+${concat([
+  installLinuxPackages({ linuxPackages, linuxType: 'ubuntu' }),
+  installPnpm({ pnpmVersion }),
+  installPnpmPackages({ pnpmPackages }),
+  runCommands({ commands }),
+])}
 `.trimStart();
